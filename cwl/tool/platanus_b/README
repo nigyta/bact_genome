@@ -1,0 +1,27 @@
+# how to prepare Docker container for Platanus_b
+
+## Build a container
+docker build -t platanus_b:1.1.0 .
+
+## Test
+docker run -it --rm platanus_b:1.1.0  platanus_b -v
+
+## Use
+docker run -it --rm -v /path/to/your/data_directory:/data platanus_b:1.1.0  
+(after attaching to docker container)
+cd /data
+platanus_b assemble -f JCM1025.50x.R1.fastq JCM1025.50x.R2.fastq
+# --> Two output files, out_contig.fa and out_32merFrq.tsv, will be generated under /path/to/your/data_directory
+
+platanus_b iterate -c out_contig.fa -IP1 JCM1025.50x.R1.fastq JCM1025.50x.R2.fastq 
+# --> Results will be generated under /path/to/your/data_directory (out1~6, out_iterativeAssembly.fa, out.finalPolishLog)
+
+platanus_b assemble -f /data/JCM1025.50x.R1.fastq /data/JCM1025.50x.R2.fastq -o /data/
+
+
+platanus_b assemble -f /data/ecoli_1.fastq /data/ecoli_2.fastq -o /data/out
+platanus_b iterate -c out_contig.fa -IP1 /data/ecoli_1.fastq /data/ecoli_2.fastq -o /data/out
+
+ platanus_b iterate -c /data/out_contig.fa -IP1 /data/ecoli_1.fastq /data/ecoli_2.fastq -o /data/out
+ platanus_b iterate -c /data/out_contig.fa -IP1 /data/ecoli_1.fastq /data/ecoli_2.fastq -o /data
+ 

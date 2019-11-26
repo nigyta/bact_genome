@@ -1,0 +1,5 @@
+テストデータ作成
+
+AP014682  40kbのplasmid配列から生成
+
+docker run -v $PWD:/data/ galantelab/sandy genome --verbose --sequencing-type=paired-end --coverage=150 --prefix test /data/test.genome.fna -o /data/.

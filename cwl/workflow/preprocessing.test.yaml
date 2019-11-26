@@ -1,0 +1,9 @@
+threads: 2
+genome_size: 0.04
+fastq2:  # type "File"
+    class: File
+    path: ../test/test_R1_001.fastq.gz
+fastq1:  # type "File"
+    class: File
+    path: ../test/test_R2_001.fastq.gz
+coverage: 100
