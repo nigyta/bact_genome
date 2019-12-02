@@ -3,10 +3,12 @@
 ## 使用方法
 ### 動作環境
 Docker および cwltool が必要。  
-- Docker のインストール　　
-  Mac 用の Docker は、[公式サイト](https://hub.docker.com/editions/community/docker-ce-desktop-mac)からインストーラーがダウンロードできる（ダウンロードするためには Docker のアカウントを作成しておく必要がある。Dockerアカウントは起動時にも必要）  
-  Preferences -> Advanced で CPU、メモリの割当を行う。少なくとも 2 CPU、メモリ4Gbyteは必要。
-- cwltool のインストール (python3が必要)　　
+- Docker のインストール  
+  Mac 用の Docker は、[公式サイト](https://hub.docker.com/editions/community/docker-ce-desktop-mac)からインストーラーがダウンロードできる。  
+  ダウンロードするためには Docker のアカウントを作成しておく必要がある。Dockerアカウントは起動時にも必要。  
+  インストールには管理者権限が必要。  
+  Preferences -> Advanced で CPU、メモリの割当を行う。動作確認は 2 CPU、メモリ4Gbyte で行っています。
+- cwltool のインストール (python3が必要)  
   ```
   pip install cwltool
   ```
@@ -23,6 +25,14 @@ Docker および cwltool が必要。
   ```
    テストデータは40kbpのプラスミド配列のデータ。--genome_size には 0.04Mbp (=40kbp)、カバレッジが120xになるようデータのサブサンプリングを行いアセンブリを行う。  
    結果ファイルは `test_result` に出力される。
+
+### 遺伝研スパコンでの実行方法
+遺伝研スパコンでは Docker が使えないが、`--singularity`オプションを指定することで Singularity で代用することができる。  
+__現状、Singularity コンテナのビルドが一部失敗するため、下記は動作しない（近日
+≈対応予定）__
+  ```
+  cwltool --singularity --outdir test_result ../workflow/assemble_and_annotation.cwl --coverage 120 --genome_size 0.04 --fastq1 test_R1_001.fastq.gz --fastq2 test_R2_001.fastq.gz --threads 2 --dfast_cpu 2
+  ```
 
 ## ワークフローについて
 ### リードの前処理
