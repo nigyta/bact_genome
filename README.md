@@ -24,6 +24,7 @@
 
 ### Jupyter notebook 起動方法
   ```
+  cd bact_genome
   jupyter notebook
   ```
   起動後、ブラウザが立ち上がりますので画面から analysis.ipynb を選び開いてください。  
