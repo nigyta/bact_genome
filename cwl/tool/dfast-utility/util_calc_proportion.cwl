@@ -5,10 +5,12 @@ class: CommandLineTool
 requirements:
   InlineJavascriptRequirement: {}
   DockerRequirement:
+    dockerPull: nigyta/dfast:1.2.4
     # dockerPull: quay.io/biocontainers/dfast:1.2.4--py37h8b12597_0
-    dockerImageId:  dfast-cwl:1.2.4
-    dockerFile:
-      $include: ../dfast/Dockerfile
+    # dockerImageId:  dfast-cwl:1.2.4
+    # dockerFile:
+    #   $include: ../dfast/Dockerfile
+
 
 
 baseCommand: [python]

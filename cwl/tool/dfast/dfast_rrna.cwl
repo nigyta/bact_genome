@@ -6,10 +6,11 @@ baseCommand: dfast
 
 requirements: 
   DockerRequirement:
+    dockerPull: nigyta/dfast:1.2.4
     # dockerPull: quay.io/biocontainers/dfast:1.2.4--py37h8b12597_0
-    dockerImageId:  dfast-cwl:1.2.4
-    dockerFile:
-      $include: ../docker_file/dfast/Dockerfile
+    # dockerImageId:  dfast-cwl:1.2.4
+    #dockerFile:
+    #  $include: ./Dockerfile
 
 arguments: [-g, $(inputs.genome), --cpu, $(inputs.cpu), -o, $(inputs.out_dir), --no_cds, --no_trna, --no_crispr]
 
