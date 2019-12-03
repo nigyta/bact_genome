@@ -102,7 +102,7 @@ cwltool ../../workflow/platanusB-w-rRNA.cwl --fastq1 ../../../../JCM1025.50x.R1.
 cwltool ../../tool/seqkit/seqkit-stats-FASTA.cwl --fasta PLOOC_contig.fa --fasta PLOOC_iterativeAssembly.fa
 
 ```
-## ワークフロー実行
+## アセンブルワークフロー実行
 ```
 cwltool ../../workflow/platanusB-default.cwl --fastq1 test_R1_001.fastp.100x.fastq --fastq2 test_R2_001.fastp.100x.fastq --prefix PLOOC --threads 4
 ```
