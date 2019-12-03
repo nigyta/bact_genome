@@ -49,6 +49,11 @@ __現状、Singularity コンテナのビルドが一部失敗するため、下
     現状では、cwltool が対応していないため回避策無し。  
     ビルド済みの Docker イメージを公開することで対応予定。
   - DFAST の Barrnap のステップで失敗する。  
+    [解決方法] 環境変数 LC_ALL を設定し、cwl 実行時に引き継ぐようにする。
+    ```
+    export LC_ALL=C
+    cwltool --preserve-environment LC_ALL --singularity ../tool/dfast/dfast.cwl --genome test.genome.fna
+    ```
     DFAST 側で対応予定。 
 ## ワークフローについて
 ### リードの前処理
