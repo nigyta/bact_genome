@@ -20,7 +20,7 @@ inputs:
       type: File
       default:
         class: File
-        location: ../scripts/merge_rrna_contigs.py
+        location: merge_rrna_contigs.py
     base_gbk: File
     repeat_gbk: File
     output_fasta:

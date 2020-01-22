@@ -25,8 +25,8 @@ inputs:
   
 
 steps:
-  preprocess:
-    run: preprocess.cwl
+  preprocessing:
+    run: preprocessing.cwl
     in:
       fastq1: fastq1
       fastq2: fastq2
@@ -35,10 +35,10 @@ steps:
     out: [subsampled_fastq1, subsampled_fastq2]
 
   assemble:
-    run: asmbl_platanusB.cwl
+    run: platanusB-w-rRNA.cwl
     in:
-      fastq1: preprocess/subsampled_fastq1
-      fastq2: preprocess/subsampled_fastq2
+      fastq1: preprocessing/subsampled_fastq1
+      fastq2: preprocessing/subsampled_fastq2
       threads: threads
     out: [contig, scaffold, kmerfreq, repeat]
 
@@ -46,17 +46,17 @@ steps:
     run: annotation.cwl
     in:
       genome: assemble/scaffold
-      repeat_contig: assemble/contig
+      repeat_contig: assemble/repeat
       num_cpu: dfast_cpu
     out: [merged_genome_result, dfast_result]
 
 outputs:
     - id: subsampled_fastq1
       type: File
-      outputSource: preprocess/subsampled_fastq1
+      outputSource: preprocessing/subsampled_fastq1
     - id: subsampled_fastq2
       type: File
-      outputSource: preprocess/subsampled_fastq2
+      outputSource: preprocessing/subsampled_fastq2
     - id: scaffold
       type: File
       outputSource: assemble/scaffold

@@ -16,24 +16,24 @@ inputs:
     default: merged.genome.fasta
 steps:
   rna_annotation_base:
-    run: ../tool/dfast_rrna.cwl
+    run: ../tool/dfast/dfast_rrna.cwl
     in:
       genome: genome
     out: [gbk]
   rna_annotation_repeat:
-    run: ../tool/dfast_rrna.cwl
+    run: ../tool/dfast/dfast_rrna.cwl
     in:
       genome: repeat_contig
     out: [gbk]
   merge_assembly:
-    run: ../tool/merge_assembly.cwl
+    run: ../tool/dfast-utility/merge_assembly.cwl
     in:
       base_gbk: rna_annotation_base/gbk
       repeat_gbk: rna_annotation_repeat/gbk
       output_fasta: merged_genome
     out: [merged_genome]
   annotation:
-    run: ../tool/dfast.cwl
+    run: ../tool/dfast/dfast.cwl
     in:
       cpu: num_cpu
       genome: merge_assembly/merged_genome
