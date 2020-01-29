@@ -8,9 +8,10 @@ requirements:
   InlineJavascriptRequirement: {}
 hints: 
   DockerRequirement:
-    dockerImageId:  platanus_b:1.1.0
-    dockerFile:
-      $include: ./Dockerfile
+    dockerPull: nigyta/platanus_b:1.1.0
+    # dockerImageId:  platanus_b:1.1.0
+    # dockerFile:
+      # $include: ./Dockerfile
 
 arguments: [-f, $(inputs.fastq1), $(inputs.fastq2), -repeat]
 

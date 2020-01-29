@@ -7,9 +7,10 @@ baseCommand: [platanus_b, iterate]
 # requirements:
 hints: 
   DockerRequirement:
-    dockerImageId:  platanus_b:1.1.0
-    dockerFile:
-      $include: ./Dockerfile
+    dockerPull: nigyta/platanus_b:1.1.0
+    # dockerImageId:  platanus_b:1.1.0
+    # dockerFile:
+      # $include: ./Dockerfile
 
 arguments: [-c, $(inputs.contig), -IP1, $(inputs.fastq1), $(inputs.fastq2)]
 
