@@ -1,13 +1,17 @@
 #!/usr/bin/env cwl-runner
 
-cwlVersion: v1.0
+cwlVersion: v1.2
 class: CommandLineTool
 baseCommand: dfast
 
 requirements:
   InlineJavascriptRequirement: {}
+  EnvVarRequirement:
+    envDef:
+      OMP_NUM_THREADS: "1"
+      MALLOC_ARENA_MAX: "1"
   DockerRequirement:
-    dockerPull: nigyta/dfast:1.2.4
+    dockerPull: nigyta/dfast_core:1.2.18
     # dockerPull: quay.io/biocontainers/dfast:1.2.4--py37h8b12597_0
     # dockerImageId:  dfast-cwl:1.2.4
     #dockerFile:
@@ -31,6 +35,10 @@ inputs:
     type: File
     inputBinding:
       prefix: --genome
+  dbroot:
+    type: Directory
+    inputBinding:
+      prefix: --dbroot
   out_dir:
     type: string
     default: "annotation"
