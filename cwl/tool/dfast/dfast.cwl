@@ -11,7 +11,7 @@ requirements:
       OMP_NUM_THREADS: "1"
       MALLOC_ARENA_MAX: "1"
   DockerRequirement:
-    dockerPull: nigyta/dfast_core:1.2.18
+    dockerPull: nigyta/dfast_core:1.2.20
     # dockerPull: quay.io/biocontainers/dfast:1.2.4--py37h8b12597_0
     # dockerImageId:  dfast-cwl:1.2.4
     #dockerFile:
