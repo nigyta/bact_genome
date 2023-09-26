@@ -5,7 +5,7 @@
   - [Toilとcwltoolバージョンの確認](#toilとcwltoolバージョンの確認)
   - [どのバージョンが良いですか？](#どのバージョンが良いですか)
   - [Multiplexaを使う](#multiplexaを使う)
-- [dfastとdfastqcのインストール](#dfastとdfastqcのインストール)
+- [dfastとdfastqcのCWLを取得](#dfastとdfastqcのcwlを取得)
   - [dfastとdfastqcのバージョン](#dfastとdfastqcのバージョン)
 - [TODO リポジトリ](#todo-リポジトリ)
 - [ジョブファイル構造](#ジョブファイル構造)
@@ -13,8 +13,9 @@
   - [dfastqc](#dfastqc)
   - [qacct用](#qacct用)
   - [Singularityキャッシュの作成](#singularityキャッシュの作成)
-    - [Singulairtyキャッシュ作成用スクリプト](#singulairtyキャッシュ作成用スクリプト)
-    - [Singularityキャッシュ作成方法](#singularityキャッシュ作成方法)
+    - [qlogin に関する注意点](#qlogin-に関する注意点)
+    - [Singulairtyキャッシュ作成用スクリプト取得](#singulairtyキャッシュ作成用スクリプト取得)
+    - [Singularityキャッシュ作成スクリプトの実行](#singularityキャッシュ作成スクリプトの実行)
 - [実行方法](#実行方法)
   - [cwltool](#cwltool)
   - [toil](#toil)
@@ -82,15 +83,13 @@ toilも最新安定バージョンが良いです。
 ほとんどの場合、ジョブの実行には時間がかかります。
 これらのソフトウェアを使用しない場合、ネットワークが切断され、実行が停止します。
 
-## dfastとdfastqcのインストール
+## dfastとdfastqcのCWLを取得
 
-dfast
+以下のレポジトリを `git clone` します。
 
-https://github.com/nigyta/bact_genome/blob/master/cwl/tool/dfast/dfast.cwl
-
-dfastqc
-
-
+```console
+git clone https://github.com/nigyta/bact_genome.git
+```
 
 ### dfastとdfastqcのバージョン
 
@@ -159,25 +158,7 @@ Singularityキャッシュがない場合、必要なときに作成されます
 
 インターネット接続が切断されている場合、以下のようにして作成できます。
 
-#### Singulairtyキャッシュ作成用スクリプト
-
-```bash
-#!/bin/bash
-set -eu
-# this script MUST be set CWL_SINGULARITY_CACHE
-mkdir -p ${CWL_SINGULARITY_CACHE}
-#
-CWLDIR=$1
-
-for DOCKERIMAGE in `grep -r dockerPull ${CWLDIR}  | awk '{print $NF}' | tr -d '"' | tr -d "'" | sort | uniq `
-do
- SINGULARITY_IMAGE=`echo $DOCKERIMAGE| sed -e "s/\//_/g"`.sif
- singularity pull --force --name ${CWL_SINGULARITY_CACHE}/${SINGULARITY_IMAGE} docker://${DOCKERIMAGE}
-done
-```
-
-
-#### Singularityキャッシュ作成方法
+#### qlogin に関する注意点
 
 この作業を行う際に、遺伝研の場合は、24GB程度必要なことがあります。
 
@@ -188,9 +169,19 @@ done
 qlogin -l mem_req=24g,s_vmem=24G
 ```
 
+#### Singulairtyキャッシュ作成用スクリプト取得
+
+```console
+cd bact_genome
+curl -O https://raw.githubusercontent.com/manabuishii/cwl-samples-2023/main/scripts/create_singularity_cache_1file.sh
+chmod +x create_singularity_cache_1file.sh
+```
+
+#### Singularityキャッシュ作成スクリプトの実行
+
 ```bash
-cd dfast
-CWL_SINGULARITY_CACHE=~/.singularity_cache_dfast ./create_singularity.sh dfastおよびdfastqcのcwlがはいっているディレクトリ
+CWL_SINGULARITY_CACHE=~/.singularity_cache_dfast ./create_singularity_cache_1file.sh cwl/tool/dfast/dfast.cwl
+CWL_SINGULARITY_CACHE=~/.singularity_cache_dfast ./create_singularity_cache_1file.sh cwl/tool/dfastqc/dfastqc.cwl
 ```
 
 ## 実行方法

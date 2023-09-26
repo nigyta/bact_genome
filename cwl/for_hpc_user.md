@@ -1,12 +1,27 @@
 ## This document
 
-This document NIG General Analysis Section.
+This document is how to execute dfast, dfastqc using CWL at NIG General Analysis Section.
 
 But almost case, you can run any computer center.
 
 - First login to gateway, Second qlogin to compute node.
 
+### don't forget if you need module load
 
+This workflow requires singulairty(NIG default) or docker.
+
+And if you need to `module load singularity` or `module load docker`,
+ don't forget this command.
+If you forget this command , sometimes error messages are difficult.
+
+
+#### check singularity version
+
+`singularity version`
+
+### check docker version
+
+`docker version`
 
 ### qloign
 
@@ -31,6 +46,8 @@ toil latest stable version is good.
 [toil release history](https://pypi.org/project/toil/#history)
 
 ### Check toil and cwltool version
+
+The version at the time of writing this document is as follows.
 
 - `toil-cwl-runner --version`
 - `cwltool --version`
@@ -115,16 +132,49 @@ To check job status almost 10sec per job.
 ${SGE_ROOT}/${SGE_CELL}/common/accounting
 ```
 
-### create singularity cache
+Scripts for fast qacct execution are described below later.
 
-If there is no singularity cache, it will be created on demand.
-But for that, it will needs internet connection.
-If internet connection is down even if 
+### Singularityキャッシュの作成
 
+Singularityキャッシュがない場合、必要なときに作成されます。
+しかし、それにはインターネット接続が必要ですが、singularityキャッシュ作成時にインターネットへの接続がきれると、ワークフロー全体が止まってしまいます。
+
+インターネット接続が切断されている場合、以下のようにして作成できます。
+
+#### Singulairtyキャッシュ作成用スクリプト
+
+```bash
+#!/bin/bash
+set -eu
+# this script MUST be set CWL_SINGULARITY_CACHE
+mkdir -p ${CWL_SINGULARITY_CACHE}
+#
+CWLDIR=$1
+
+for DOCKERIMAGE in `grep -r dockerPull ${CWLDIR}  | awk '{print $NF}' | tr -d '"' | tr -d "'" | sort | uniq `
+do
+ SINGULARITY_IMAGE=`echo $DOCKERIMAGE| sed -e "s/\//_/g"`.sif
+ singularity pull --force --name ${CWL_SINGULARITY_CACHE}/${SINGULARITY_IMAGE} docker://${DOCKERIMAGE}
+done
 ```
-cd jga-analysis
-CWL_SINGULARITY_CACHE=~/.singularity_cache_dfast ./create_singularity.sh per-sample
+
+
+#### Singularityキャッシュ作成方法
+
+この作業を行う際に、遺伝研の場合は、24GB程度必要なことがあります。
+
+参考情報：
+[遺伝研スパコンでDFASTを動かす \- Qiita](https://qiita.com/nigyta/items/e1de21f6ece65d69ec1d)
+
+```console
+qlogin -l mem_req=24g,s_vmem=24G
 ```
+
+```bash
+cd dfast
+CWL_SINGULARITY_CACHE=~/.singularity_cache_dfast ./create_singularity.sh dfastおよびdfastqcのcwlがはいっているディレクトリ
+```
+
 
 
 
@@ -233,7 +283,6 @@ toil-cwl-runner \
   --bypass-file-store \
  --singularity \
  --batchSystem grid_engine \
- --cleanWorkDir never \
  --defaultDisk 32000 \
  --defaultMemory ${ACTUALMEM} \
  --defaultCores 1.0 \
@@ -256,6 +305,34 @@ Add following option to
 
 ```
  --restart \
+```
+
+## debug purpose
+
+Log Message Level to Debug.
+So many informations are output
+
+```
+ --logDebug \
+```
+
+For worker debug.
+
+```
+ --debugWorker \
+```
+
+### special debug purpose
+
+Job finished successfully.
+But something strange happens.
+
+Every intermediate files are still exists.
+
+Take care about your quota
+
+```
+ --cleanWorkDir never \
 ```
 
 ## Increase memory
@@ -282,5 +359,8 @@ Sometimes, 32GB and 31GB is good.
 
 Unable to run job: failed receiving gdi request response for mid=1 (got syncron message receive timeout error).
 
+#### bam is not created or very small filesize.
 
-
+Check `echo $?` , if it is `33`.
+Check `singularity` or `docker` version.
+Sometimes forget load each of them.
