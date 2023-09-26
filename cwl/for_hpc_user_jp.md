@@ -224,7 +224,7 @@ CWL_SINGULARITY_CACHE=~/.singularity_cache_dfast ./create_singularity_cache_1fil
 単独のマシンで実行するときは以下のようにします。
 
 ```bash
-cwltool dfast-filelist.cwl jobfile.yaml
+CWL_SINGULARITY_CACHE=~/.singularity_cache_dfast cwltool dfast-filelist.cwl jobfile.yaml
 ```
 
 ### toil
@@ -233,7 +233,7 @@ cwltool dfast-filelist.cwl jobfile.yaml
 以下は、grid_engineの例です。
 
 ```bash
-toil-cwl-runner --batchSystem grid-engine --jobStore jobsotre_dfast --output output_dfast dfast-filelist.cwl jobfile.yaml
+CWL_SINGULARITY_CACHE=~/.singularity_cache_dfast toil-cwl-runner --batchSystem grid-engine --jobStore jobsotre_dfast --output output_dfast dfast-filelist.cwl jobfile.yaml
 ```
 
 ## スクリプト
