@@ -1,27 +1,27 @@
 ----
-- [このドキュメント](#このドキュメント)
-  - [qlogin](#qlogin)
-- [Toilのインストールと、CWLでのdfastおよびdfastqcの実行](#toilのインストールとcwlでのdfastおよびdfastqcの実行)
-  - [Toilとcwltoolバージョンの確認](#toilとcwltoolバージョンの確認)
-  - [どのバージョンが良いですか？](#どのバージョンが良いですか)
-  - [Multiplexaを使う](#multiplexaを使う)
-- [dfastとdfastqcのCWLを取得](#dfastとdfastqcのcwlを取得)
-  - [dfastとdfastqcのバージョン](#dfastとdfastqcのバージョン)
-- [TODO リポジトリ](#todo-リポジトリ)
-- [ジョブファイル構造](#ジョブファイル構造)
-  - [dfast](#dfast)
-  - [dfastqc](#dfastqc)
-  - [qacct用](#qacct用)
-  - [Singularityキャッシュの作成](#singularityキャッシュの作成)
-    - [qlogin に関する注意点](#qlogin-に関する注意点)
-    - [Singulairtyキャッシュ作成用スクリプト取得](#singulairtyキャッシュ作成用スクリプト取得)
-    - [Singularityキャッシュ作成スクリプトの実行](#singularityキャッシュ作成スクリプトの実行)
-- [実行方法](#実行方法)
-  - [cwltool](#cwltool)
-  - [toil](#toil)
-- [スクリプト](#スクリプト)
-  - [注意事項](#注意事項)
-  - [その他](#その他)
+- [Node インストール](#node-インストール)
+  - [.bashrcなどにPATHの設定](#bashrcなどにpathの設定)
+  - [Toilのインストールと、CWLでのdfastおよびdfastqcの実行](#toilのインストールとcwlでのdfastおよびdfastqcの実行)
+    - [Toilとcwltoolバージョンの確認](#toilとcwltoolバージョンの確認)
+    - [どのバージョンが良いですか？](#どのバージョンが良いですか)
+    - [Multiplexaを使う](#multiplexaを使う)
+  - [dfastとdfastqcのCWLを取得](#dfastとdfastqcのcwlを取得)
+    - [dfastとdfastqcのバージョン](#dfastとdfastqcのバージョン)
+  - [TODO リポジトリ](#todo-リポジトリ)
+  - [ジョブファイル構造](#ジョブファイル構造)
+    - [dfast](#dfast)
+    - [dfastqc](#dfastqc)
+    - [qacct用](#qacct用)
+    - [Singularityキャッシュの作成](#singularityキャッシュの作成)
+      - [qlogin に関する注意点](#qlogin-に関する注意点)
+      - [Singulairtyキャッシュ作成用スクリプト取得](#singulairtyキャッシュ作成用スクリプト取得)
+      - [Singularityキャッシュ作成スクリプトの実行](#singularityキャッシュ作成スクリプトの実行)
+  - [実行方法](#実行方法)
+    - [cwltool](#cwltool)
+    - [toil](#toil)
+  - [スクリプト](#スクリプト)
+    - [注意事項](#注意事項)
+    - [その他](#その他)
 
 
 ## このドキュメント
@@ -36,6 +36,39 @@
 
 ゲートウェイマシンに接続した後、
 マシンにqloginします。
+
+# Node インストール
+
+expression などで必要なので以下を追加し、PATHも通しておく
+
+```
+mkdir nodejs
+cd nodejs
+wget https://nodejs.org/dist/v14.17.6/node-v14.17.6-linux-x64.tar.xz
+tar Jxvf node-v14.17.6-linux-x64.tar.xz
+```
+
+うまく解凍できないときいは、 `xz` コマンドで明示的に解凍したあと
+tarを展開してください。
+
+```console
+xz -d node-v14.17.6-linux-x64.tar.xz
+tar xvf node-v14.17.6-linux-x64.tar
+```
+
+## .bashrcなどにPATHの設定
+
+.bashrcなどに
+
+```
+export PATH=~/nodejs/node-v14.17.6-linux-x64/bin/:$PATH
+```
+
+20230511石井追記
+PATHの設定をしたら、いったんログアウトする。
+screenやtmuxつかっていたらそこから全部抜けて、ログアウトして再度ログインする。
+
+
 
 ## Toilのインストールと、CWLでのdfastおよびdfastqcの実行
 
