@@ -75,6 +75,19 @@ inputs:
     default: 1
     inputBinding:
       prefix: --cpu
+  #
+  use_original_name:
+    type: boolean
+    default: true
+    inputBinding:
+      prefix: --use_original_name
+      valueFrom: $(self.toString())
+  sort_sequence:
+    type: boolean
+    default: true
+    inputBinding:
+      prefix: --sort_sequence
+      valueFrom: $(self.toString())
 
 #  no_rrna:
 #    inputBinding: 
