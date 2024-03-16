@@ -32,6 +32,12 @@ inputs:
   cpu:
     type: int
     default: 1
+  use_original_name:
+    type: boolean
+    default: true
+  sort_sequence:
+    type: boolean
+    default: true
 
 steps:
   dfast:
@@ -49,6 +55,8 @@ steps:
       no_hmm: no_hmm
       no_cdd: no_cdd
       cpu: cpu
+      use_original_name: use_original_name
+      sort_sequence: sort_sequence
     out: [result]
 
 outputs: 
