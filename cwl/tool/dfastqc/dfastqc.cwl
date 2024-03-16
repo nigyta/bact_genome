@@ -15,7 +15,7 @@ baseCommand: dfast_qc
 
 arguments:
   - -i
-  - $(inputs.input)
+  - $(inputs.genome)
   - -o
   - $(inputs.outdir)
   - --num_threads
@@ -25,7 +25,7 @@ arguments:
   - --enable_gtdb
 #  - --disable_tc
 inputs:
-  - id: input
+  - id: genome
     type: File
   - id: outdir
     type: string
