@@ -1,0 +1,19 @@
+# for dfast setting
+dbroot:
+    class: Directory
+    path: /lustre9/open/shared_data/dfast/dfast_core_db/
+cpu: 1
+no_hmm: true
+no_cdd: true
+
+use_original_name: false
+sort_sequence: false
+#use_original_name: true
+#sort_sequence: true
+
+# for dfastqc setting
+num_threads: 1
+reference:
+    class: Directory
+    path: /lustre9/open/shared_data/dfast/dqc_reference
+
